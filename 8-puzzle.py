@@ -181,8 +181,25 @@ def index( item, seq ):
     else:
         return -1
 
+def heuristic( puzzle, total_itens, total_final ):
+    t = 0
+    for row in range( 3 ):
+        for col in range( 3 ):
+            val = puzzle.peek( row, col ) - 1
+            c_column = val % 3
+            c_line = val / 3
+
+            if( c_line < 0 ): 
+                c_line = 2
+
+            t += total_itens( row, c_line, col, c_column )
+
+    return total_final( t )
+
+def h_manhattan( puzzle ):
+    return heuristic( puzzle,
+                lambda r, tr, c, tc: abs( tr - r ) + abs( tc - c ),
+                lambda t : t )
+
 if __name__ == "__main__":
 	main()
-
-
-
